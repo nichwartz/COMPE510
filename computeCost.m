@@ -5,9 +5,9 @@ function J = computeCost(X, y, beta)
 % Initialize some useful values
 m = length(y); % number of training examples
 
-% You need to return the following variables correctly 
+% You need to return the following variables correctly
 J = 0;
-
+a = 1 + 2;
 % ====================== YOUR CODE HERE ======================
 % Instructions: Compute the cost of a particular choice of beta
 %               You should set J to the cost.
