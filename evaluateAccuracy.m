@@ -4,12 +4,12 @@ function error = evaluateAccuracy(beta, X, y)
 
 m = length(y); % number of testing examples
 
-% ====================== YOUR C.ODE HERE ======================
+% ====================== YOUR CODE HERE ======================
 % Instructions: Compute the prediction error (mean squared error) using the
 %               testing set.
 %
-12
 
+error = (1/m) * sum((X*beta - y).^2);
 
 % ============================================================
 

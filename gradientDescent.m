@@ -11,22 +11,22 @@ for iter = 1:num_iters
 
     % ====================== YOUR CODE HERE ======================
     % Instructions: Perform a single gradient step on the parameter vector
-    %               beta. 
+    %               beta.
     %
     % Hint: While debugging, it can be useful to print out the values
     %       of the cost function (computeCost) and gradient here.
     %
-
+    beta = beta - (alpha/m) * (X' * (X*beta - y));
 
 
 
     % ============================================================
 
-    % Save the cost J (J = 1/(2m)*SSE) in every iteration 
-    
+    % Save the cost J (J = 1/(2m)*SSE) in every iteration
+
     % ====================== YOUR CODE HERE ======================
     J_history(iter) = computeCost(X, y, beta);
-  
+
 
     % ============================================================
 end
