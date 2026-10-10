@@ -1,0 +1,626 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"><html xmlns="http://www.w3.org/1999/xhtml" data-mw-follows-matlab-theme="false"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      -->
+<title>SDSU Machine Learning Course (CompE510/EE600/CompE596)</title>
+<meta name="generator" content="MATLAB 26.1" />
+<link rel="schema.DC" href="http://purl.org/dc/elements/1.1/" />
+<meta name="DC.date" content="2026-10-07" />
+<meta name="DC.source" content="assignmentLinearR.m" />
+<style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; }
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+span.typesection { color:#A0522D }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style>
+</head>
+<body class="mw-theme-light" style="zoom: 100%;">
+<div class="content">
+<h1>SDSU Machine Learning Course (CompE510/EE600/CompE596)</h1>
+<!--introduction-->
+<!--/introduction-->
+<h2>Contents</h2>
+<div>
+<ul>
+<li>
+<a href="#1">Programming Assignment: Linear regression</a>
+</li>
+<li>
+<a href="#2">================ Part 1: Normal Equations ================</a>
+</li>
+<li>
+<a href="#3">========== Part 2: Evaluate performance =============</a>
+</li>
+<li>
+<a href="#4">================ Part 3: Feature Normalization ================</a>
+</li>
+<li>
+<a href="#5">================ Part 4: Gradient Descent ================</a>
+</li>
+</ul>
+</div>
+<h2 id="1">Programming Assignment: Linear regression</h2>
+<p>Dataset comes from: <a href="https://archive.ics.uci.edu/ml/datasets/Real+estate+valuation+data+set">https://archive.ics.uci.edu/ml/datasets/Real+estate+valuation+data+set</a>
+</p>
+<pre>Instructions
+------------</pre>
+<pre>This file contains code that helps you get started on the
+linear regression assignment.</pre>
+<pre>You will need to complete the following functions in this
+exericse:</pre>
+<pre>   loadData.m
+   normalEqn.m
+   evaluateAccuracy.m
+   featureNormalize.m
+   gradientDescent.m
+   computeCost.m</pre>
+<pre>For this part of the exercise, you will need to change some
+parts of the code below for various experiments (e.g., changing
+learning rates).</pre>
+<p>Initialization</p>
+<pre class="codeinput">clear ; close <span class="string">all</span>; clc
+</pre>
+<h2 id="2">================ Part 1: Normal Equations ================</h2>
+<pre class="codeinput">fprintf(<span class="string">'===== Part 1: Normal Equations ===== \n'</span>);
+
+<span class="comment">% Instructions: The following code computes the closed form</span>
+<span class="comment">%               solution for linear regression using the normal</span>
+<span class="comment">%               equations. You should complete the code in loadData.m,</span>
+<span class="comment">%               normalEqn.m</span>
+<span class="comment">%</span>
+<span class="comment">%               After doing so, you should complete this code</span>
+<span class="comment">%               to predict the price of a house that is 2 year</span>
+<span class="comment">%               old, 500 meter to the nearest MRT station, and</span>
+<span class="comment">%               has 8 convenience stores in the living circle</span>
+<span class="comment">%               on foot</span>
+<span class="comment">% ============================================================</span>
+
+
+<span class="comment">% Step 1: Load data and split data into a training set and testing set</span>
+<span class="comment">% ====================== YOUR CODE HERE ======================</span>
+[X_train, y_train, X_test, y_test] = loadData();
+
+<span class="comment">% ============================================================</span>
+
+<span class="comment">% Print out some data points</span>
+fprintf(<span class="string">'First 10 examples from the training dataset: \n'</span>);
+fprintf(<span class="string">' x = [%.0f %.0f %.0f], y = %.0f \n'</span>, [X_train(1:10,:) y_train(1:10,:)]');
+fprintf(<span class="string">'\n'</span>);
+
+num_train = length(y_train); <span class="comment">% number of training examples</span>
+
+<span class="comment">% Add intercept term to X_train and X_test</span>
+X_train = [ones(num_train, 1) X_train];
+
+<span class="comment">% Step 2: Calculate the parameters beta from the normal equation</span>
+<span class="comment">% ====================== YOUR CODE HERE ======================</span>
+beta = normalEqn(X_train, y_train);
+
+<span class="comment">% ============================================================</span>
+
+<span class="comment">% Display normal equation's result</span>
+fprintf(<span class="string">'beta computed from the normal equations: \n'</span>);
+fprintf(<span class="string">' %f \n'</span>, beta);
+fprintf(<span class="string">'\n'</span>);
+
+fprintf(<span class="string">'Program paused. Press enter to continue.\n'</span>);
+pause;
+</pre>
+<pre class="codeoutput">===== Part 1: Normal Equations ===== 
+Warning: Column headers from the file were modified to make them valid MATLAB
+identifiers before creating variable names for the table. The original column
+headers are saved in the VariableDescriptions property.
+Set 'VariableNamingRule' to 'preserve' to use the original column headers as
+table variable names. 
+First 10 examples from the training dataset: 
+ x = [34 325 6], y = 46 
+ x = [27 4449 0], y = 16 
+ x = [14 1802 1], y = 25 
+ x = [2 330 5], y = 50 
+ x = [32 1146 0], y = 16 
+ x = [14 289 5], y = 53 
+ x = [13 492 5], y = 39 
+ x = [5 1867 2], y = 36 
+ x = [18 1783 3], y = 21 
+ x = [5 1560 3], y = 29 
+
+beta computed from the normal equations: 
+ 43.687549 
+ -0.256207 
+ -0.005516 
+ 1.235633 
+
+Program paused. Press enter to continue.
+</pre>
+<h2 id="3">========== Part 2: Evaluate performance =============</h2>
+<pre class="codeinput">fprintf(<span class="string">'===== Part 2: Evaluate Performance ===== \n'</span>);
+
+<span class="comment">% Instructions: The following code evaluates the performance of</span>
+<span class="comment">%               the trained linear regression model. You should</span>
+<span class="comment">%               complete code in evaluateAccuracy.m. You should</span>
+<span class="comment">%               also predict the price of a house described below.</span>
+<span class="comment">% ============================================================</span>
+
+num_test = length(y_test); <span class="comment">% number of testing examples</span>
+
+<span class="comment">% Add intercept term to Xn_test</span>
+X_test = [ones(num_test, 1) X_test];
+
+<span class="comment">% ====================== YOUR CODE HERE ======================</span>
+<span class="comment">% Step 1: Evaluate the prediction performance of the trained model</span>
+error = evaluateAccuracy(beta, X_test, y_test);
+
+<span class="comment">% ============================================================</span>
+
+<span class="comment">% Display the average prediction error</span>
+fprintf(<span class="string">'Average prediction error (using normal equations):\n %f\n'</span>, error);
+fprintf(<span class="string">'\n'</span>);
+
+<span class="comment">% Step 2: Estimate the price of a house that is 2 year old, 500 meter</span>
+<span class="comment">% to the nearest MRT station, has 8 convenience stores in the living circle on foot</span>
+<span class="comment">% ====================== YOUR CODE HERE ======================</span>
+price = [1, 2, 500, 8]*beta; <span class="comment">% You should change this.</span>
+
+<span class="comment">% ============================================================</span>
+
+fprintf([<span class="string">'Predicted price of the house '</span> <span class="keyword">...</span>
+    <span class="string">'(using normal equations):\n $%f\n'</span>], price);
+fprintf(<span class="string">'\n'</span>);
+
+
+fprintf(<span class="string">'Program paused. Press enter to continue.\n'</span>);
+pause;
+</pre>
+<pre class="codeoutput">===== Part 2: Evaluate Performance ===== 
+Average prediction error (using normal equations):
+ 79.603016
+
+Predicted price of the house (using normal equations):
+ $50.302119
+
+Program paused. Press enter to continue.
+</pre>
+<h2 id="4">================ Part 3: Feature Normalization ================</h2>
+<pre class="codeinput">fprintf(<span class="string">'===== Part 3: Feature Normalization ===== \n'</span>);
+
+<span class="comment">% Instructions: The following code normalizes the data using standardization</span>
+<span class="comment">%               and evaluate the performance of the model trained using the</span>
+<span class="comment">%               normalized data.</span>
+<span class="comment">%               You should complete code in featureNormalize.m</span>
+<span class="comment">% ============================================================</span>
+
+<span class="comment">% Step 1: Normalize the features</span>
+fprintf(<span class="string">'Normalizing Features ...\n'</span>);
+<span class="comment">% ====================== YOUR CODE HERE ======================</span>
+[Xn_train mu sigma] = featureNormalize(X_train(:,2:end));
+<span class="comment">% Add intercept term to X_train</span>
+Xn_train = [ones(num_train, 1) Xn_train];
+<span class="comment">% ============================================================</span>
+
+beta_n = normalEqn(Xn_train, y_train);
+<span class="comment">% Display value of the parameters beta_n</span>
+fprintf(<span class="string">'beta computed from the normal equations after feature normalization: \n'</span>);
+fprintf(<span class="string">' %f \n'</span>, beta_n);
+fprintf(<span class="string">'\n'</span>);
+
+<span class="comment">% Step 2: Evaluate the performance of the model trained using the</span>
+<span class="comment">% normalized data</span>
+<span class="comment">% ====================== YOUR CODE HERE ======================</span>
+<span class="comment">% Hint: The testing set also needs to be normalized first</span>
+Xn_test= (X_test(:,2:end) - mu) ./ sigma;
+Xn_test = [ones(num_test, 1) Xn_test];
+
+<span class="comment">% you should change this</span>
+    error_n = evaluateAccuracy(beta_n, Xn_test, y_test); <span class="comment">% you should change this</span>
+
+
+    <span class="comment">% ============================================================</span>
+<span class="comment">% Display the average prediction error</span>
+fprintf(<span class="string">'Average prediction error after normalization (using normal equations):\n %f\n'</span>, error_n);
+fprintf(<span class="string">'\n'</span>);
+
+fprintf(<span class="string">'Program paused. Press enter to continue.\n'</span>);
+pause;
+</pre>
+<pre class="codeoutput">===== Part 3: Feature Normalization ===== 
+Normalizing Features ...
+beta computed from the normal equations after feature normalization: 
+ 38.131034 
+ -2.923682 
+ -7.281041 
+ 3.583930 
+
+Average prediction error after normalization (using normal equations):
+ 79.603016
+
+Program paused. Press enter to continue.
+</pre>
+<h2 id="5">================ Part 4: Gradient Descent ================</h2>
+<pre class="codeinput">fprintf(<span class="string">'===== Part 4: Gradient Descent ===== \n'</span>);
+
+<span class="comment">% Instructions: The following code applies gradient descent to</span>
+<span class="comment">%               estimate the parameters in a linear regression</span>
+<span class="comment">%               model. You should complete code in gradientDescent.m</span>
+<span class="comment">%</span>
+<span class="comment">%               Try running gradient descent with</span>
+<span class="comment">%               different values of alpha and see which one gives</span>
+<span class="comment">%               you the best result.</span>
+<span class="comment">%</span>
+<span class="comment">%               After that, you should complete the code at the end</span>
+<span class="comment">%               to predict the price of a house.</span>
+<span class="comment">% ============================================================</span>
+
+
+<span class="comment">% Step 1: Initialize the hyper-parameters, including</span>
+<span class="comment">%         1. alpha: learning rate</span>
+<span class="comment">%         2. num_iters: number of training iterations</span>
+<span class="comment">% ====================== YOUR CODE HERE ======================</span>
+alpha = .05 <span class="comment">% you should change this</span>
+    num_iters = 125 <span class="comment">% you should change this</span>
+
+    <span class="comment">% ============================================================</span>
+
+<span class="comment">% Initialize beta</span>
+beta_g = zeros(4, 1);
+
+<span class="comment">% Step 2: Run Gradient Descent</span>
+<span class="comment">% ====================== YOUR CODE HERE ======================</span>
+[beta_g, J_history] = gradientDescent(Xn_train, y_train, beta_g, alpha, num_iters);
+
+<span class="comment">% ============================================================</span>
+
+<span class="comment">% Plot the convergence graph</span>
+figure;
+plot(1:numel(J_history), J_history, <span class="string">'-b'</span>, <span class="string">'LineWidth'</span>, 2);
+xlabel(<span class="string">'Number of iterations'</span>);
+ylabel(<span class="string">'Cost J'</span>);
+
+<span class="comment">% Display gradient descent's result</span>
+fprintf(<span class="string">'beta computed from gradient descent: \n'</span>);
+fprintf(<span class="string">' %f \n'</span>, beta_g);
+fprintf(<span class="string">'\n'</span>);
+
+
+error_g = evaluateAccuracy(beta_g, Xn_test, y_test);
+
+<span class="comment">% Display the average prediction error</span>
+fprintf(<span class="string">'Average prediction error (using gradient descent):\n %f\n'</span>, error_g);
+fprintf(<span class="string">'\n'</span>);
+
+<span class="comment">% Step 3: Estimate the price of a house</span>
+<span class="comment">% that is 2 year old, 500 meter to the nearest MRT station, has 8</span>
+<span class="comment">% convenience stores in the living circle on foot</span>
+<span class="comment">% ====================== YOUR CODE HERE ======================</span>
+<span class="comment">% Recall that the first column of X is all-ones. Thus, it does</span>
+<span class="comment">% not need to be normalized. But the other columns need to be normalized</span>
+price_g = ([2, 500, 8] - mu) ./ sigma;
+price_g = [1 price_g] * beta_g; <span class="comment">% You should change this</span>
+
+    <span class="comment">% ============================================================</span>
+
+fprintf([<span class="string">'Predicted price of the house '</span> <span class="keyword">...</span>
+    <span class="string">'(using gradient descent):\n $%f\n'</span>], price_g);
+</pre>
+<pre class="codeoutput">===== Part 4: Gradient Descent ===== 
+
+alpha =
+
+    0.0500
+
+
+num_iters =
+
+   125
+
+beta computed from gradient descent: 
+ 38.068412 
+ -2.938948 
+ -7.160001 
+ 3.704853 
+
+Average prediction error (using gradient descent):
+ 79.402552
+
+Predicted price of the house (using gradient descent):
+ $50.369619
+</pre>
+<img vspace="5" hspace="5" src="assignmentLinearR_01.png" alt="" /> <p class="footer">
+<br />
+<a href="https://www.mathworks.com/products/matlab/">Published with MATLAB® R2026a</a>
+<br />
+</p>
+</div>
+<!--
+##### SOURCE BEGIN #####
+%% SDSU Machine Learning Course (CompE510/EE600/CompE596)
+%% Programming Assignment:  Linear regression
+%
+% Dataset comes from:
+% https://archive.ics.uci.edu/ml/datasets/Real+estate+valuation+data+set
+%
+%  Instructions
+%  REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH
+%
+%  This file contains code that helps you get started on the
+%  linear regression assignment.
+%
+%  You will need to complete the following functions in this
+%  exericse:
+%
+%     loadData.m
+%     normalEqn.m
+%     evaluateAccuracy.m
+%     featureNormalize.m
+%     gradientDescent.m
+%     computeCost.m
+%
+%  For this part of the exercise, you will need to change some
+%  parts of the code below for various experiments (e.g., changing
+%  learning rates).
+%
+% Initialization
+clear ; close all; clc
+
+%% ================ Part 1: Normal Equations ================
+fprintf('===== Part 1: Normal Equations ===== \n');
+
+% Instructions: The following code computes the closed form
+%               solution for linear regression using the normal
+%               equations. You should complete the code in loadData.m,
+%               normalEqn.m
+%
+%               After doing so, you should complete this code
+%               to predict the price of a house that is 2 year
+%               old, 500 meter to the nearest MRT station, and
+%               has 8 convenience stores in the living circle
+%               on foot
+% ============================================================
+
+
+% Step 1: Load data and split data into a training set and testing set
+% ====================== YOUR CODE HERE ======================
+[X_train, y_train, X_test, y_test] = loadData();
+
+% ============================================================
+
+% Print out some data points
+fprintf('First 10 examples from the training dataset: \n');
+fprintf(' x = [%.0f %.0f %.0f], y = %.0f \n', [X_train(1:10,:) y_train(1:10,:)]');
+fprintf('\n');
+
+num_train = length(y_train); % number of training examples
+
+% Add intercept term to X_train and X_test
+X_train = [ones(num_train, 1) X_train];
+
+% Step 2: Calculate the parameters beta from the normal equation
+% ====================== YOUR CODE HERE ======================
+beta = normalEqn(X_train, y_train);
+
+% ============================================================
+
+% Display normal equation's result
+fprintf('beta computed from the normal equations: \n');
+fprintf(' %f \n', beta);
+fprintf('\n');
+
+fprintf('Program paused. Press enter to continue.\n');
+pause;
+
+%% ========== Part 2: Evaluate performance =============
+fprintf('===== Part 2: Evaluate Performance ===== \n');
+
+% Instructions: The following code evaluates the performance of
+%               the trained linear regression model. You should
+%               complete code in evaluateAccuracy.m. You should
+%               also predict the price of a house described below.
+% ============================================================
+
+num_test = length(y_test); % number of testing examples
+
+% Add intercept term to Xn_test
+X_test = [ones(num_test, 1) X_test];
+
+% ====================== YOUR CODE HERE ======================
+% Step 1: Evaluate the prediction performance of the trained model
+error = evaluateAccuracy(beta, X_test, y_test);
+
+% ============================================================
+
+% Display the average prediction error
+fprintf('Average prediction error (using normal equations):\n %f\n', error);
+fprintf('\n');
+
+% Step 2: Estimate the price of a house that is 2 year old, 500 meter
+% to the nearest MRT station, has 8 convenience stores in the living circle on foot
+% ====================== YOUR CODE HERE ======================
+price = [1, 2, 500, 8]*beta; % You should change this.
+
+% ============================================================
+
+fprintf(['Predicted price of the house ' ...
+    '(using normal equations):\n $%f\n'], price);
+fprintf('\n');
+
+
+fprintf('Program paused. Press enter to continue.\n');
+pause;
+
+
+%% ================ Part 3: Feature Normalization ================
+
+fprintf('===== Part 3: Feature Normalization ===== \n');
+
+% Instructions: The following code normalizes the data using standardization
+%               and evaluate the performance of the model trained using the
+%               normalized data.
+%               You should complete code in featureNormalize.m
+% ============================================================
+
+% Step 1: Normalize the features
+fprintf('Normalizing Features ...\n');
+% ====================== YOUR CODE HERE ======================
+[Xn_train mu sigma] = featureNormalize(X_train(:,2:end));
+% Add intercept term to X_train
+Xn_train = [ones(num_train, 1) Xn_train];
+% ============================================================
+
+beta_n = normalEqn(Xn_train, y_train);
+% Display value of the parameters beta_n
+fprintf('beta computed from the normal equations after feature normalization: \n');
+fprintf(' %f \n', beta_n);
+fprintf('\n');
+
+% Step 2: Evaluate the performance of the model trained using the
+% normalized data
+% ====================== YOUR CODE HERE ======================
+% Hint: The testing set also needs to be normalized first
+Xn_test= (X_test(:,2:end) - mu) ./ sigma;
+Xn_test = [ones(num_test, 1) Xn_test];
+
+% you should change this
+    error_n = evaluateAccuracy(beta_n, Xn_test, y_test); % you should change this
+
+
+    % ============================================================
+% Display the average prediction error
+fprintf('Average prediction error after normalization (using normal equations):\n %f\n', error_n);
+fprintf('\n');
+
+fprintf('Program paused. Press enter to continue.\n');
+pause;
+
+
+
+%% ================ Part 4: Gradient Descent ================
+
+fprintf('===== Part 4: Gradient Descent ===== \n');
+
+% Instructions: The following code applies gradient descent to
+%               estimate the parameters in a linear regression
+%               model. You should complete code in gradientDescent.m
+%
+%               Try running gradient descent with
+%               different values of alpha and see which one gives
+%               you the best result.
+%
+%               After that, you should complete the code at the end
+%               to predict the price of a house.
+% ============================================================
+
+
+% Step 1: Initialize the hyper-parameters, including
+%         1. alpha: learning rate
+%         2. num_iters: number of training iterations
+% ====================== YOUR CODE HERE ======================
+alpha = .05 % you should change this
+    num_iters = 125 % you should change this
+
+    % ============================================================
+
+% Initialize beta
+beta_g = zeros(4, 1);
+
+% Step 2: Run Gradient Descent
+% ====================== YOUR CODE HERE ======================
+[beta_g, J_history] = gradientDescent(Xn_train, y_train, beta_g, alpha, num_iters);
+
+% ============================================================
+
+% Plot the convergence graph
+figure;
+plot(1:numel(J_history), J_history, '-b', 'LineWidth', 2);
+xlabel('Number of iterations');
+ylabel('Cost J');
+
+% Display gradient descent's result
+fprintf('beta computed from gradient descent: \n');
+fprintf(' %f \n', beta_g);
+fprintf('\n');
+
+
+error_g = evaluateAccuracy(beta_g, Xn_test, y_test);
+
+% Display the average prediction error
+fprintf('Average prediction error (using gradient descent):\n %f\n', error_g);
+fprintf('\n');
+
+% Step 3: Estimate the price of a house
+% that is 2 year old, 500 meter to the nearest MRT station, has 8
+% convenience stores in the living circle on foot
+% ====================== YOUR CODE HERE ======================
+% Recall that the first column of X is all-ones. Thus, it does
+% not need to be normalized. But the other columns need to be normalized
+price_g = ([2, 500, 8] - mu) ./ sigma;
+price_g = [1 price_g] * beta_g; % You should change this
+
+    % ============================================================
+
+fprintf(['Predicted price of the house ' ...
+    '(using gradient descent):\n $%f\n'], price_g);
+
+
+
+##### SOURCE END #####
+-->
+
+
+</body></html>

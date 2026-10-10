@@ -22,16 +22,16 @@ function [X_train, y_train, X_test, y_test] = loadData()
 % Hint: You might find the 'readtable' and 'table2array' functions useful.
 %
 
-data = readtable('housePriceData.xlsx');
-array = table2array(data);
+
+array = table2array(readtable('housePriceData.xlsx'));
 
 index = randperm(size(array, 1));
 trainIndex = index(1:round(0.7*length(index)));
 testIndex = index(round(0.7*length(index))+1:end);
-X_train = array(trainIndex, 2:4);
-y_train = array(trainIndex, 5);
-X_test = array(testIndex, 2:4);
-y_test = array(testIndex, 5);
+X_train = array(trainIndex, 3:5);
+y_train = array(trainIndex, 8);
+X_test = array(testIndex, 3:5);
+y_test = array(testIndex, 8);
 
 % ============================================================
 

@@ -1,16 +1,16 @@
 %% SDSU Machine Learning Course (CompE510/EE600/CompE596)
-%% Programming Assignment:  Linear regression 
+%% Programming Assignment:  Linear regression
 %
-% Dataset comes from: 
+% Dataset comes from:
 % https://archive.ics.uci.edu/ml/datasets/Real+estate+valuation+data+set
 %
 %  Instructions
 %  ------------
-% 
-%  This file contains code that helps you get started on the
-%  linear regression assignment. 
 %
-%  You will need to complete the following functions in this 
+%  This file contains code that helps you get started on the
+%  linear regression assignment.
+%
+%  You will need to complete the following functions in this
 %  exericse:
 %
 %     loadData.m
@@ -30,15 +30,15 @@ clear ; close all; clc
 %% ================ Part 1: Normal Equations ================
 fprintf('===== Part 1: Normal Equations ===== \n');
 
-% Instructions: The following code computes the closed form 
+% Instructions: The following code computes the closed form
 %               solution for linear regression using the normal
 %               equations. You should complete the code in loadData.m,
 %               normalEqn.m
 %
-%               After doing so, you should complete this code 
-%               to predict the price of a house that is 2 year 
-%               old, 500 meter to the nearest MRT station, and 
-%               has 8 convenience stores in the living circle 
+%               After doing so, you should complete this code
+%               to predict the price of a house that is 2 year
+%               old, 500 meter to the nearest MRT station, and
+%               has 8 convenience stores in the living circle
 %               on foot
 % ============================================================
 
@@ -77,8 +77,8 @@ pause;
 fprintf('===== Part 2: Evaluate Performance ===== \n');
 
 % Instructions: The following code evaluates the performance of
-%               the trained linear regression model. You should 
-%               complete code in evaluateAccuracy.m. You should 
+%               the trained linear regression model. You should
+%               complete code in evaluateAccuracy.m. You should
 %               also predict the price of a house described below.
 % ============================================================
 
@@ -97,15 +97,15 @@ error = evaluateAccuracy(beta, X_test, y_test);
 fprintf('Average prediction error (using normal equations):\n %f\n', error);
 fprintf('\n');
 
-% Step 2: Estimate the price of a house that is 2 year old, 500 meter 
+% Step 2: Estimate the price of a house that is 2 year old, 500 meter
 % to the nearest MRT station, has 8 convenience stores in the living circle on foot
 % ====================== YOUR CODE HERE ======================
-price = ... % You should change this.
+price = [1, 2, 500, 8]*beta; % You should change this.
 
 % ============================================================
 
 fprintf(['Predicted price of the house ' ...
-         '(using normal equations):\n $%f\n'], price);
+    '(using normal equations):\n $%f\n'], price);
 fprintf('\n');
 
 
@@ -117,9 +117,9 @@ pause;
 
 fprintf('===== Part 3: Feature Normalization ===== \n');
 
-% Instructions: The following code normalizes the data using standardization 
+% Instructions: The following code normalizes the data using standardization
 %               and evaluate the performance of the model trained using the
-%               normalized data. 
+%               normalized data.
 %               You should complete code in featureNormalize.m
 % ============================================================
 
@@ -141,11 +141,14 @@ fprintf('\n');
 % normalized data
 % ====================== YOUR CODE HERE ======================
 % Hint: The testing set also needs to be normalized first
-Xn_test = .... % you should change this
-error_n = .... % you should change this
+Xn_test= (X_test(:,2:end) - mu) ./ sigma;
+Xn_test = [ones(num_test, 1) Xn_test];
+
+% you should change this
+    error_n = evaluateAccuracy(beta_n, Xn_test, y_test); % you should change this
 
 
-% ============================================================
+    % ============================================================
 % Display the average prediction error
 fprintf('Average prediction error after normalization (using normal equations):\n %f\n', error_n);
 fprintf('\n');
@@ -159,11 +162,11 @@ pause;
 
 fprintf('===== Part 4: Gradient Descent ===== \n');
 
-% Instructions: The following code applies gradient descent to 
-%               estimate the parameters in a linear regression 
+% Instructions: The following code applies gradient descent to
+%               estimate the parameters in a linear regression
 %               model. You should complete code in gradientDescent.m
 %
-%               Try running gradient descent with 
+%               Try running gradient descent with
 %               different values of alpha and see which one gives
 %               you the best result.
 %
@@ -172,19 +175,19 @@ fprintf('===== Part 4: Gradient Descent ===== \n');
 % ============================================================
 
 
-% Step 1: Initialize the hyper-parameters, including 
+% Step 1: Initialize the hyper-parameters, including
 %         1. alpha: learning rate
 %         2. num_iters: number of training iterations
 % ====================== YOUR CODE HERE ======================
-alpha = ... % you should change this
-num_iters = ... % you should change this
+alpha = .3 % you should change this
+    num_iters = 400 % you should change this
 
-% ============================================================
+    % ============================================================
 
-% Initialize beta 
+% Initialize beta
 beta_g = zeros(4, 1);
 
-% Step 2: Run Gradient Descent 
+% Step 2: Run Gradient Descent
 % ====================== YOUR CODE HERE ======================
 [beta_g, J_history] = gradientDescent(Xn_train, y_train, beta_g, alpha, num_iters);
 
@@ -208,17 +211,20 @@ error_g = evaluateAccuracy(beta_g, Xn_test, y_test);
 fprintf('Average prediction error (using gradient descent):\n %f\n', error_g);
 fprintf('\n');
 
-% Step 3: Estimate the price of a house 
-% that is 2 year old, 500 meter to the nearest MRT station, has 8 
+% Step 3: Estimate the price of a house
+% that is 2 year old, 500 meter to the nearest MRT station, has 8
 % convenience stores in the living circle on foot
 % ====================== YOUR CODE HERE ======================
 % Recall that the first column of X is all-ones. Thus, it does
 % not need to be normalized. But the other columns need to be normalized
-price_g = ... % You should change this
 
-% ============================================================
+
+price_g = ([2, 500, 8] - mu) ./ sigma
+price_g = [1 price_g] * beta_g; 
+
+    % ============================================================
 
 fprintf(['Predicted price of the house ' ...
-         '(using gradient descent):\n $%f\n'], price_g);
+    '(using gradient descent):\n $%f\n'], price_g);
 
 

@@ -10,7 +10,7 @@ beta = zeros(size(X, 2), 1);
 %               to linear regression and put the result in beta.
 %
 
-beta = pinv(X' * X) * X' * y;
+beta = inv(X' * X) * X' * y;
 
 
 
