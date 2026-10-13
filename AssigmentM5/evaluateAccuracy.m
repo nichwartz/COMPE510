@@ -9,7 +9,7 @@ num = length(y); % number of testing examples
 %
 %
 p = predict(beta, X);
-accuracy = ... % you need to change this
+accuracy = (1/num) * sum((p - y).^2) * 100; % you need to change this
 
 
 % ============================================================
