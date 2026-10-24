@@ -13,8 +13,9 @@ for iter = 1:num_iters
     % Hint: While debugging, it can be useful to print out the values
     %       of the log likelihood function and gradient here.
     %
-    
+    [l_history(iter), grad] = likelihoodFunction(beta, X, y);
 
+    beta = beta + alpha*grad;
 
     
     

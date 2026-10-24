@@ -17,7 +17,12 @@ grad = zeros(size(beta));
 % Note: grad should have the same dimensions as beta
 %
 
+n = length(y);
+h = sigmoid(X*beta);
 
+l = (1/n) *sum(y.*log(h) + (1-y) .*log(1-h));
+
+grad = (1/n) * X' *(y-h);
 
 
 
