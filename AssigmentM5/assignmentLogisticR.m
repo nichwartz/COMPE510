@@ -43,7 +43,7 @@ fprintf('===== Part 1: Data Preprocessing ===== \n');
 fprintf('Loading data ...\n');
 % ====================== YOUR CODE HERE ======================
 % Step 1: Load data
-[X_train, y_train, X_test, y_test] = loadData();
+[X_train, y_train, X_test, y_test] = loadData()
 
 % ============================================================
 
@@ -97,8 +97,8 @@ fprintf('===== Part 2: Maximum Likelihood & Gradient Ascent ===== \n');
 % Step 1: Configure the hyper-parameters, including
 %         1. alpha: learning rate
 %         2. num_iters: number of training iterations
-alpha = ... % you should change this 
-num_iters = ... % you should change this 
+alpha = 0.1 % you should change this 
+num_iters = 1000 % you should change this 
 
 % ============================================================
 
@@ -139,7 +139,10 @@ fprintf('===== Part 3: Evaluate Performance ===== \n');
 % ====================== YOUR CODE HERE ======================
 % Step 1: Evaluate the performance of the trained model
 % Hint: The testing set also needs to be normlized first
-Xn_test = .... % you should change this
+num_test = size(X_test,1); 
+
+Xn_test= [(X_test - mu) ./ sigma]; % you should change this
+Xn_test = [ones(num_test,1) Xn_test];
 accuracy = evaluateAccuracy(beta, Xn_test, y_test);
 
 % ============================================================
@@ -150,8 +153,10 @@ fprintf('\n');
 
 % ====================== YOUR CODE HERE ======================
 % Step 2: Given a new input x = [3, 100, 79, 19, 100, 36, 0.8, 30], predict the output
-x_new = ... % You should change this
-y_new = ... % You should change this
+
+x_new = ([3, 100, 79, 19, 100, 36, 0.8, 30]- mu )./sigma; % You should change this
+x_new = [1 x_new];
+y_new = predict(beta, x_new); % You should change this
 
 % ============================================================
 % display the predicted output

@@ -19,6 +19,8 @@ p = zeros(m, 1); %
 
 
 
+p = sigmoid(X * beta); 
+p = p >= 0.5;
 
 
 

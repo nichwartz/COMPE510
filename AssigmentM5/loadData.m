@@ -15,6 +15,15 @@ function [X_train, y_train, X_test, y_test] = loadData()
     % Hint: You might find the 'readtable' and 'table2array' functions useful.
     %
 
+array = table2array(readtable('pima-indians-diabetes.csv'))
+
+index = randperm(size(array, 1));
+trainIndex = index(1:round(0.7*length(index)));
+testIndex = index(round(0.7*length(index))+1:end);
+X_train = array(trainIndex, 1:8);
+y_train = array(trainIndex, 9);
+X_test = array(testIndex, 1:8);
+y_test = array(testIndex, 9);
     
     
     
