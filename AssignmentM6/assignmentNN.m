@@ -1,17 +1,17 @@
 %% SDSU Machine Learning Course (EE510/EE600/CompE596)
-%% Programming Assignment:  Neural Network 
+%% Programming Assignment:  Neural Network
 %
 %  Instructions
 %  ------------
-% 
-%  Dataset comes from: 
-%   http://networkrepository.com/pima-indians-diabetes.php
-% 
-% 
-%  This file contains code that helps you get started on the
-%  neural network assignment. 
 %
-%  You will need to complete the following functions in this 
+%  Dataset comes from:
+%   http://networkrepository.com/pima-indians-diabetes.php
+%
+%
+%  This file contains code that helps you get started on the
+%  neural network assignment.
+%
+%  You will need to complete the following functions in this
 %  assignment
 %
 %     loadData.m
@@ -32,9 +32,9 @@ clear ; close all; clc
 %% =========== Part 1: Data Preprocessing =============
 fprintf('===== Part 1: Data Preprocessing ===== \n');
 
-% Instructions: The following code loads data into matlab, splits the 
-%               data into two sets, and performs feature normalization. 
-%               You will need to complete code in loadData.m, and 
+% Instructions: The following code loads data into matlab, splits the
+%               data into two sets, and performs feature normalization.
+%               You will need to complete code in loadData.m, and
 %               featureNormalize.m
 % ============================================================
 
@@ -54,12 +54,12 @@ fprintf(' x = [%.0f %.0f %.0f %.0f %.0f %.0f %.0f %.0f], y = %.0f \n',...
 fprintf('\n');
 
 [num_train, m] = size(X_train); % num_train is the number of total data examples
-                                % m is the number of features
-                        
+% m is the number of features
+
 % Scale features and set them to zero mean
 fprintf('Normalizing Features ...\n');
 
-% Step 2: Normalize the features. 
+% Step 2: Normalize the features.
 % ====================== YOUR CODE HERE ======================
 [Xn_train, mu, sigma] = featureNormalize(X_train);
 
@@ -77,13 +77,13 @@ pause;
 
 fprintf('===== Part 2: Train Neural Network ===== \n');
 
-% Instructions: The following code applies backpropagation algorithm to 
-%               estimate the parameters in a neural network model with 
-%               a single hidden layer. 
+% Instructions: The following code applies backpropagation algorithm to
+%               estimate the parameters in a neural network model with
+%               a single hidden layer.
 %               You should complete code in trainNN.m, and sigmoid.m
 %
-%               Try running the backpropagation algorithm with 
-%               different values of alpha and num_hidden and see which 
+%               Try running the backpropagation algorithm with
+%               different values of alpha and num_hidden and see which
 %               one gives you the best result.
 % ============================================================
 
@@ -95,18 +95,18 @@ fprintf('===== Part 2: Train Neural Network ===== \n');
 %         3. num_hidden: number of hidden units (not including the bia unit)
 %         4. num_output: number output unit
 
-alpha = ... % you should change this
-num_epochs = ... % you should change this 
-num_hidden = ...   % you should change this 
-num_output = ...   % you should change this 
+alpha = 0.1; % you should change this
+num_epochs = 100; % you should change this
+num_hidden = 5;   % you should change this
+num_output = 1;   % you should change this
 
-% initialize the weights: beta1 and beta2 
+% initialize the weights: beta1 and beta2
 beta1 = rand(num_hidden, m+1); % weights associated with links between input and hidden layers
 beta2 = rand(num_output, num_hidden+1); % weights associated with links between hidden and output layers
 % ============================================================
 
 % ====================== YOUR CODE HERE ======================
-% Step 2: Run backpropagation 
+% Step 2: Run backpropagation
 [beta1, beta2, J_history] = trainNN(Xn_train, y_train, beta1, beta2, alpha, num_epochs);
 
 % ============================================================
@@ -133,7 +133,7 @@ pause;
 fprintf('===== Part 3: Evaluate Performance ===== \n');
 
 % Instructions: The following code evaluates the performance of
-%               the trained neural network model. You should 
+%               the trained neural network model. You should
 %               complete code in evaluateAccuracy.m, predict.m
 % ============================================================
 
@@ -141,7 +141,7 @@ fprintf('===== Part 3: Evaluate Performance ===== \n');
 % ====================== YOUR CODE HERE ======================
 % Hint: The testing set also needs to be normlized first
 Xn_test = .... % you should change this
-accuracy = evaluateAccuracy(beta1, beta2, Xn_test, y_test);
+    accuracy = evaluateAccuracy(beta1, beta2, Xn_test, y_test);
 
 % ============================================================
 
@@ -152,9 +152,9 @@ fprintf('\n');
 % ====================== YOUR CODE HERE ======================
 % Step 2: Given a new input x = [3, 100, 79, 19, 100, 36, 0.8, 30], predict the output
 x_new = ... % You should change this
-y_new = ... % You should change this
+    y_new = ... % You should change this
 
-% ============================================================
+    % ============================================================
 % display the predicted output
 fprintf(['Predicted output:\n %d\n'], y_new);
 
