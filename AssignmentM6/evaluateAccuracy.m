@@ -7,7 +7,7 @@ function accuracy = evaluateAccuracy(beta1, beta2, X, y)
 %
 %
 p = predict(beta1, beta2, X);
-accuracy = ... % you need to change this
+accuracy = 100 - (1/length(y)) * sum((p - y).^2) * 100;
 
 
 

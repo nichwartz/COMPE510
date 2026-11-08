@@ -95,8 +95,8 @@ fprintf('===== Part 2: Train Neural Network ===== \n');
 %         3. num_hidden: number of hidden units (not including the bia unit)
 %         4. num_output: number output unit
 
-alpha = 0.1; % you should change this
-num_epochs = 100; % you should change this
+alpha = 0.01; % you should change this
+num_epochs = 1; % you should change this
 num_hidden = 5;   % you should change this
 num_output = 1;   % you should change this
 
@@ -116,6 +116,8 @@ figure;
 plot(1:numel(J_history), J_history, '-b', 'LineWidth', 2);
 xlabel('Number of epochs');
 ylabel('Cost J');
+str = sprintf('num hidden = %d', num_hidden);
+title(str);
 
 % Display gradient descent's result
 fprintf('beta1 computed from gradient descent: \n');
@@ -140,19 +142,22 @@ fprintf('===== Part 3: Evaluate Performance ===== \n');
 
 % ====================== YOUR CODE HERE ======================
 % Hint: The testing set also needs to be normlized first
-Xn_test = .... % you should change this
+Xn_test= [(X_test - mu) ./ sigma]; % you should change this
     accuracy = evaluateAccuracy(beta1, beta2, Xn_test, y_test);
-
+training_accuracy = evaluateAccuracy(beta1, beta2, Xn_train, y_train);
 % ============================================================
 
 % Display the prediction accuracy
 fprintf('Accuracy:\n %f\n', accuracy);
+fprintf('Training Accuracy:\n %f\n', training_accuracy);
 fprintf('\n');
 
 % ====================== YOUR CODE HERE ======================
 % Step 2: Given a new input x = [3, 100, 79, 19, 100, 36, 0.8, 30], predict the output
-x_new = ... % You should change this
-    y_new = ... % You should change this
+x_new = [3, 100, 79, 19, 100, 36, 0.8, 30];
+x_new = [(x_new - mu) ./ sigma];
+
+    y_new = predict(beta1,beta2,x_new); % You should change this
 
     % ============================================================
 % display the predicted output

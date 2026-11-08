@@ -11,6 +11,12 @@ p = zeros(size(X, 1), 1); %
 %               your learned neural network. 
 %
 %
+X = [ones(size(X,1),1) X];
+
+hiddenLayer = sigmoid(X * beta1');
+hiddenLayer = [ones(size(hiddenLayer, 1), 1) hiddenLayer];
+p = sigmoid(hiddenLayer * beta2');
+p = p >= 0.5;
 
 
 
