@@ -1,0 +1,491 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      -->
+<title>SDSU Machine Learning Course (CompE510/EE600/CompE596)</title>
+<meta name="generator" content="MATLAB 26.2">
+<link rel="schema.DC" href="http://purl.org/dc/elements/1.1/">
+<meta name="DC.date" content="2026-10-14">
+<meta name="DC.source" content="assignmentLogisticR.m">
+<style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; }
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+span.typesection { color:#A0522D }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style>
+</head>
+<body>
+<div class="content">
+<h1>SDSU Machine Learning Course (CompE510/EE600/CompE596)</h1>
+<!--introduction-->
+<!--/introduction-->
+<h2>Contents</h2>
+<div>
+<ul>
+<li>
+<a href="#1">Programming Assignment: Logistic regression</a>
+</li>
+<li>
+<a href="#2">================ Part 1: Data Preprocessing ================</a>
+</li>
+<li>
+<a href="#3">========== Part 2: Maximum Likelihood &amp; Gradient Ascent =============</a>
+</li>
+<li>
+<a href="#4">========== Part 3: Evaluate performance =================</a>
+</li>
+</ul>
+</div>
+<h2 id="1">Programming Assignment: Logistic regression</h2>
+<pre>Dataset comes from:
+ http://networkrepository.com/pima-indians-diabetes.php</pre>
+<pre>Instructions
+------------</pre>
+<pre>This file contains code that helps you get started on the
+logistic regression assignment.</pre>
+<pre>You will need to complete the following functions in this
+assignment</pre>
+<pre>   loadData.m
+   featureNormalize.m
+   gradientAscent.m
+   likelihoodFunction.m
+   evaluateAccuracy.m
+   predict.m
+   sigmoid.m</pre>
+<pre>For this part of the assignment, you will need to change some
+parts of the code below for various experiments (e.g., changing
+learning rates).</pre>
+<p>Initialization</p>
+<pre class="codeinput">clear ; close <span class="string">all</span>; clc
+</pre>
+<h2 id="2">================ Part 1: Data Preprocessing ================</h2>
+<pre class="codeinput">fprintf(<span class="string">'===== Part 1: Data Preprocessing ===== \n'</span>);
+
+<span class="comment">% Instructions: The following code loads data into matlab, splits the</span>
+<span class="comment">%               data into two sets, and performs feature normalization.</span>
+<span class="comment">%               You will need to complete code in loadData.m, and</span>
+<span class="comment">%               featureNormalize.m</span>
+<span class="comment">% ============================================================</span>
+
+
+
+fprintf(<span class="string">'Loading data ...\n'</span>);
+<span class="comment">% ====================== YOUR CODE HERE ======================</span>
+<span class="comment">% Step 1: Load data</span>
+[X_train, y_train, X_test, y_test] = loadData();
+
+<span class="comment">% ============================================================</span>
+
+[num_train, m] = size(X_train); <span class="comment">% num_train is the number of total training examples</span>
+                                <span class="comment">% m is the number of features</span>
+
+<span class="comment">% Print out some data points</span>
+fprintf(<span class="string">'First 10 examples from the training dataset: \n'</span>);
+fprintf(<span class="string">' x = [%.0f %.0f %.0f %.0f %.0f %.0f %.0f %.0f], y = %.0f \n'</span>,<span class="keyword">...</span>
+    [X_train(1:10,:) y_train(1:10,:)]');
+fprintf(<span class="string">'\n'</span>);
+
+<span class="comment">% Scale features and set them to zero mean</span>
+fprintf(<span class="string">'Normalizing Features ...\n'</span>);
+<span class="comment">% ====================== YOUR CODE HERE ======================</span>
+<span class="comment">% Step 2: Normalize the features.</span>
+[Xn_train, mu, sigma] = featureNormalize(X_train);
+
+<span class="comment">% ============================================================</span>
+<span class="comment">% Print out some normalized data points</span>
+fprintf(<span class="string">'First 10 examples from the training dataset after normalization: \n'</span>);
+fprintf(<span class="string">' x = [%.0f %.0f %.0f %.0f %.0f %.0f %.0f %.0f], y = %.0f \n'</span>,<span class="keyword">...</span>
+    [Xn_train(1:10,:) y_train(1:10,:)]');
+fprintf(<span class="string">'\n'</span>);
+
+<span class="comment">% Add intercept term to Xn_train</span>
+Xn_train = [ones(num_train, 1) Xn_train];
+
+
+fprintf(<span class="string">'Program paused. Press enter to continue.\n'</span>);
+pause;
+</pre>
+<pre class="codeoutput">===== Part 1: Data Preprocessing ===== 
+Loading data ...
+First 10 examples from the training dataset: 
+ x = [3 122 78 0 0 23 0 40], y = 0 
+ x = [0 104 76 0 0 18 1 27], y = 0 
+ x = [1 106 76 0 0 38 0 26], y = 0 
+ x = [5 44 62 0 0 25 1 36], y = 0 
+ x = [3 96 78 39 0 37 0 40], y = 0 
+ x = [7 133 88 15 155 32 0 37], y = 0 
+ x = [6 92 62 32 126 32 0 46], y = 0 
+ x = [2 74 0 0 0 0 0 22], y = 0 
+ x = [5 132 80 0 0 27 0 69], y = 0 
+ x = [3 171 72 33 135 33 0 24], y = 1 
+
+Normalizing Features ...
+First 10 examples from the training dataset after normalization: 
+ x = [-0 0 0 -1 -1 -1 -1 1], y = 0 
+ x = [-1 -1 0 -1 -1 -2 0 -1], y = 0 
+ x = [-1 -0 0 -1 -1 1 -1 -1], y = 0 
+ x = [0 -2 -0 -1 -1 -1 0 0], y = 0 
+ x = [-0 -1 0 1 -1 1 -1 1], y = 0 
+ x = [1 0 1 -0 1 0 -1 0], y = 0 
+ x = [1 -1 -0 1 0 -0 -1 1], y = 0 
+ x = [-1 -1 -4 -1 -1 -4 -1 -1], y = 0 
+ x = [0 0 1 -1 -1 -1 -1 3], y = 0 
+ x = [-0 2 0 1 1 0 -1 -1], y = 1 
+
+Program paused. Press enter to continue.
+</pre>
+<h2 id="3">========== Part 2: Maximum Likelihood &amp; Gradient Ascent =============</h2>
+<pre class="codeinput">fprintf(<span class="string">'===== Part 2: Maximum Likelihood &amp; Gradient Ascent ===== \n'</span>);
+
+<span class="comment">% Instructions: The following code applies gradient ascent to</span>
+<span class="comment">%               estimate the parameters in a logistic regression</span>
+<span class="comment">%               model based on the idea of maximum likelihood estimation.</span>
+<span class="comment">%               You should complete code in gradientAscent.m,</span>
+<span class="comment">%               likelihoodFunction.m</span>
+<span class="comment">%</span>
+<span class="comment">%               Try running gradient ascent with</span>
+<span class="comment">%               different values of alpha and see which one gives</span>
+<span class="comment">%               you the best result.</span>
+<span class="comment">% ============================================================</span>
+
+
+<span class="comment">% ====================== YOUR CODE HERE ======================</span>
+<span class="comment">% Step 1: Configure the hyper-parameters, including</span>
+<span class="comment">%         1. alpha: learning rate</span>
+<span class="comment">%         2. num_iters: number of training iterations</span>
+alpha = .1 <span class="comment">% you should change this</span>
+num_iters = 500 <span class="comment">% you should change this</span>
+
+<span class="comment">% ============================================================</span>
+
+<span class="comment">% Initialize beta</span>
+beta = zeros(m+1, 1);
+
+
+<span class="comment">% ====================== YOUR CODE HERE ======================</span>
+<span class="comment">% Step 2: Run Gradient Descent</span>
+[beta, l_history] = gradientAscent(Xn_train, y_train, beta, alpha, num_iters);
+
+<span class="comment">% ============================================================</span>
+
+<span class="comment">% Plot the convergence graph</span>
+figure;
+plot(1:numel(l_history), l_history, <span class="string">'-b'</span>, <span class="string">'LineWidth'</span>, 2);
+xlabel(<span class="string">'Number of iterations'</span>);
+ylabel(<span class="string">'log likelihood l'</span>);
+str = sprintf(<span class="string">'Alpha = %.3f'</span>,alpha);
+title(str);
+
+<span class="comment">% Display gradient descent's result</span>
+fprintf(<span class="string">'beta computed from gradient descent: \n'</span>);
+fprintf(<span class="string">' %f \n'</span>, beta);
+fprintf(<span class="string">'\n'</span>);
+
+fprintf(<span class="string">'Program paused. Press enter to continue.\n'</span>);
+pause;
+</pre>
+<pre class="codeoutput">===== Part 2: Maximum Likelihood &amp; Gradient Ascent ===== 
+
+alpha =
+
+    0.1000
+
+
+num_iters =
+
+   500
+
+beta computed from gradient descent: 
+ -0.907720 
+ 0.506059 
+ 1.098096 
+ -0.207903 
+ -0.071558 
+ -0.067985 
+ 0.805433 
+ 0.296812 
+ 0.183669 
+
+Program paused. Press enter to continue.
+</pre>
+<img vspace="5" hspace="5" src="assignmentLogisticR_01.png" alt=""> <h2 id="4">========== Part 3: Evaluate performance =================</h2>
+<pre class="codeinput">fprintf(<span class="string">'===== Part 3: Evaluate Performance ===== \n'</span>);
+
+<span class="comment">% Instructions: The following code evaluates the performance of</span>
+<span class="comment">%               the trained logistic regression model. You should</span>
+<span class="comment">%               complete code in evaluateAccuracy.m, predict.m, and sigmoid.m</span>
+<span class="comment">% ============================================================</span>
+
+
+
+<span class="comment">% ====================== YOUR CODE HERE ======================</span>
+<span class="comment">% Step 1: Evaluate the performance of the trained model</span>
+<span class="comment">% Hint: The testing set also needs to be normlized first</span>
+num_test = size(X_test,1);
+
+Xn_test= (X_test - mu) ./ sigma; <span class="comment">% you should change this</span>
+Xn_test = [ones(num_test,1) Xn_test];
+accuracy = evaluateAccuracy(beta, Xn_test, y_test);
+
+<span class="comment">% ============================================================</span>
+
+<span class="comment">% Display the prediction accuracy</span>
+fprintf(<span class="string">'Accuracy:\n %f\n'</span>, accuracy);
+fprintf(<span class="string">'\n'</span>);
+
+<span class="comment">% ====================== YOUR CODE HERE ======================</span>
+<span class="comment">% Step 2: Given a new input x = [3, 100, 79, 19, 100, 36, 0.8, 30], predict the output</span>
+
+x_new = ([3, 100, 79, 19, 100, 36, 0.8, 30]- mu )./sigma; <span class="comment">% You should change this</span>
+x_new = [1 x_new];
+y_new = predict(beta, x_new); <span class="comment">% You should change this</span>
+
+<span class="comment">% ============================================================</span>
+<span class="comment">% display the predicted output</span>
+fprintf(<span class="string">'Predicted output:\n %d\n'</span>, y_new);
+</pre>
+<pre class="codeoutput">===== Part 3: Evaluate Performance ===== 
+Accuracy:
+ 76.521739
+
+Predicted output:
+ 0
+</pre>
+<p class="footer">
+<br>
+<a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2026b</a>
+<br>
+</p>
+</div>
+<!--
+##### SOURCE BEGIN #####
+%% SDSU Machine Learning Course (CompE510/EE600/CompE596)
+%% Programming Assignment:  Logistic regression 
+%
+%  Dataset comes from: 
+%   http://networkrepository.com/pima-indians-diabetes.php
+% 
+%
+%  Instructions
+%  REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH
+% 
+%  This file contains code that helps you get started on the
+%  logistic regression assignment. 
+%
+%  You will need to complete the following functions in this 
+%  assignment
+%
+%     loadData.m
+%     featureNormalize.m
+%     gradientAscent.m
+%     likelihoodFunction.m
+%     evaluateAccuracy.m 
+%     predict.m
+%     sigmoid.m
+%
+%  For this part of the assignment, you will need to change some
+%  parts of the code below for various experiments (e.g., changing
+%  learning rates).
+%
+% Initialization
+clear ; close all; clc
+
+%% ================ Part 1: Data Preprocessing ================
+fprintf('===== Part 1: Data Preprocessing ===== \n');
+
+% Instructions: The following code loads data into matlab, splits the 
+%               data into two sets, and performs feature normalization. 
+%               You will need to complete code in loadData.m, and 
+%               featureNormalize.m
+% ============================================================
+
+
+
+fprintf('Loading data ...\n');
+% ====================== YOUR CODE HERE ======================
+% Step 1: Load data
+[X_train, y_train, X_test, y_test] = loadData();
+
+% ============================================================
+
+[num_train, m] = size(X_train); % num_train is the number of total training examples
+                                % m is the number of features
+                  
+% Print out some data points
+fprintf('First 10 examples from the training dataset: \n');
+fprintf(' x = [%.0f %.0f %.0f %.0f %.0f %.0f %.0f %.0f], y = %.0f \n',...
+    [X_train(1:10,:) y_train(1:10,:)]');
+fprintf('\n');
+
+% Scale features and set them to zero mean
+fprintf('Normalizing Features ...\n');
+% ====================== YOUR CODE HERE ======================
+% Step 2: Normalize the features. 
+[Xn_train, mu, sigma] = featureNormalize(X_train);
+
+% ============================================================
+% Print out some normalized data points
+fprintf('First 10 examples from the training dataset after normalization: \n');
+fprintf(' x = [%.0f %.0f %.0f %.0f %.0f %.0f %.0f %.0f], y = %.0f \n',...
+    [Xn_train(1:10,:) y_train(1:10,:)]');
+fprintf('\n');
+
+% Add intercept term to Xn_train
+Xn_train = [ones(num_train, 1) Xn_train];
+
+
+fprintf('Program paused. Press enter to continue.\n');
+pause;
+
+
+%% ========== Part 2: Maximum Likelihood & Gradient Ascent =============
+
+fprintf('===== Part 2: Maximum Likelihood & Gradient Ascent ===== \n');
+
+% Instructions: The following code applies gradient ascent to 
+%               estimate the parameters in a logistic regression 
+%               model based on the idea of maximum likelihood estimation. 
+%               You should complete code in gradientAscent.m,
+%               likelihoodFunction.m
+%
+%               Try running gradient ascent with 
+%               different values of alpha and see which one gives
+%               you the best result.
+% ============================================================
+
+
+% ====================== YOUR CODE HERE ======================
+% Step 1: Configure the hyper-parameters, including
+%         1. alpha: learning rate
+%         2. num_iters: number of training iterations
+alpha = .1 % you should change this 
+num_iters = 500 % you should change this 
+
+% ============================================================
+
+% Initialize beta 
+beta = zeros(m+1, 1);
+
+
+% ====================== YOUR CODE HERE ======================
+% Step 2: Run Gradient Descent 
+[beta, l_history] = gradientAscent(Xn_train, y_train, beta, alpha, num_iters);
+
+% ============================================================
+
+% Plot the convergence graph
+figure;
+plot(1:numel(l_history), l_history, '-b', 'LineWidth', 2);
+xlabel('Number of iterations');
+ylabel('log likelihood l');
+str = sprintf('Alpha = %.3f',alpha);
+title(str);
+
+% Display gradient descent's result
+fprintf('beta computed from gradient descent: \n');
+fprintf(' %f \n', beta);
+fprintf('\n');
+
+fprintf('Program paused. Press enter to continue.\n');
+pause;
+
+%% ========== Part 3: Evaluate performance =================
+fprintf('===== Part 3: Evaluate Performance ===== \n');
+
+% Instructions: The following code evaluates the performance of
+%               the trained logistic regression model. You should 
+%               complete code in evaluateAccuracy.m, predict.m, and sigmoid.m
+% ============================================================
+
+
+
+% ====================== YOUR CODE HERE ======================
+% Step 1: Evaluate the performance of the trained model
+% Hint: The testing set also needs to be normlized first
+num_test = size(X_test,1); 
+
+Xn_test= (X_test - mu) ./ sigma; % you should change this
+Xn_test = [ones(num_test,1) Xn_test];
+accuracy = evaluateAccuracy(beta, Xn_test, y_test);
+
+% ============================================================
+
+% Display the prediction accuracy
+fprintf('Accuracy:\n %f\n', accuracy);
+fprintf('\n');
+
+% ====================== YOUR CODE HERE ======================
+% Step 2: Given a new input x = [3, 100, 79, 19, 100, 36, 0.8, 30], predict the output
+
+x_new = ([3, 100, 79, 19, 100, 36, 0.8, 30]- mu )./sigma; % You should change this
+x_new = [1 x_new];
+y_new = predict(beta, x_new); % You should change this
+
+% ============================================================
+% display the predicted output
+fprintf('Predicted output:\n %d\n', y_new);
+
+##### SOURCE END #####
+-->
+</body>
+</html>
